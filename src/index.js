@@ -1,24 +1,51 @@
-import React from 'react';
+import {React, useState} from 'react';
 import ReactDOM from 'react-dom/client';
-import Php  from './Php';
+import './style/style.css';
+import Game from './components/TicTacToe';
 
-// baic element
-const myFirstElement = <h1 className='title'>Hello React!, My age is {10 + 10}</h1>
+const products = [
+    {id: 1, name: 'Task1'},
+    {id: 2, name: 'Task2'},
+    {id: 3, name: 'Task3'}
+];
 
-// table - Need one top level tag
-const table = (
-    <table>
-        <tr>
-            <th>Name</th>
-            <th>Age</th>
-        </tr>
-        <tr>
-            <td>Srikanth</td>
-            <td>20</td>
-        </tr>
-    </table>
-)
+const listItems = products.map(product => 
+    <li key={product.id}>{product.name}</li>
+); 
 
-const root = ReactDOM.createRoot(document.getElementById('table'));
-root.render(<Php color='red' skin='white'/>)
-// root.render(myFirstElement)
+function Button({count, onClick}) {
+    return (
+        <button className='btn btn-info' onClick={onClick}>New</button>
+    );
+}
+
+function ListItems() {
+    return (
+        <ul>
+            {listItems}
+        </ul>
+    )
+}
+
+export default function App() {
+    const [count, setCount] = useState(0)
+
+    function handleClick() {
+        setCount(count + 1)
+    }
+
+    return (
+        <>
+        <h1>Your Todo list {count}</h1>
+        <ListItems/>
+        <Button count={count} onClick={handleClick}/>
+        <Button count={count} onClick={handleClick}/>
+        </>
+    );
+}
+
+// const root = ReactDOM.createRoot(document.getElementById('root'));
+// root.render(<App />)
+
+const ticTacToe = ReactDOM.createRoot(document.getElementById('tic_tac_toe'))
+ticTacToe.render(<Game />)
