@@ -5,8 +5,6 @@ function Square({value, onSquareClick}) {
 }
 
 function TicTacToe({xIsNext, squares, onPlay}) {
-    // const [squares, setSquares] = useState(Array(9).fill(null))
-
     function handleClick(i) {
         if (squares[i] || calculateWinner(squares)) {
             return;
@@ -27,17 +25,7 @@ function TicTacToe({xIsNext, squares, onPlay}) {
       status = 'Winner: ' + winner;
     } else {
       status = 'Next player: ' + (xIsNext ? 'X' : 'O');
-    }
-
-    function renderRow(rows) {
-        return (
-            rows.map((row) => {
-                return (
-                    <Square value={squares[row]} onSquareClick={() => handleClick(row)}/>
-                );
-            })
-        );
-    }
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 
     function renderBoard() {
          return (
@@ -60,19 +48,8 @@ function TicTacToe({xIsNext, squares, onPlay}) {
         <h1>Tic Tac Toe game</h1>
         <div className="status">{status}</div>
         {renderBoard()}
-        {/* <div className="board-row">
-            {renderRow([0, 1, 2])}
-        </div>
-
-        <div className="board-row">
-            {renderRow([3, 4, 5])}
-        </div>
-
-        <div className="board-row">
-            {renderRow([6, 7, 8])}
-        </div> */}
         </>
-    );
+    )
 }
 
 function Game() {
