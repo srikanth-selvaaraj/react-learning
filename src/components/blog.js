@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 
 const apiUrl = process.env.REACT_APP_BACKEND_APP_API_BASE_URL
 
-// Blog listing component
+// Blog listing component - testing changes
 function BlogList({blogList, handleEdit, handleDelete}) {
     return (
     <div className="row">
