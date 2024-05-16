@@ -62,6 +62,7 @@ function BlogForm({previousFormData, handleChange, handleAddBlog, handleUpdateBl
 function Blog() {
     // all blogs - state
     const [blogs, setBlogs] = useState([]);
+    const [errors, setErrors] = useState({title:[], description: []});
 
     // new blog - form state
     const [formData, setFormData] = useState({id:"", title: "", description: ""});
@@ -69,14 +70,30 @@ function Blog() {
     // Fetch all blogs - api
     useEffect(() => {
         fetch(`${apiUrl}blogs`)
-        .then((response) => response.json())
-        .then((json) => setBlogs(json.response))
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            return response.json();
+        })
+        .then((json) => {
+            if (json.blogs_count > 0) {
+                setBlogs(json.response)
+            } else {
+                setBlogs([]);
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching data:', error);
+        });
     }, []) // [] => will call the useEffect only once
 
     // Handle the form field changes
     function handleChange(event) {
         const {name, value} = event.target;
         setFormData((prevFormData) => ({...prevFormData, [name]: value}))
+        setErrors({ ...errors, [name]: [] });
     }
 
     // create blog
@@ -85,7 +102,7 @@ function Blog() {
         const blog_title = formData.title.trim();
         const blog_description = formData.description.trim();
 
-        if (blog_title && blog_description) {
+        // if (blog_title && blog_description) {
             fetch(`${apiUrl}create_blog`, {
                 method: 'POST',
                 body: JSON.stringify({
@@ -95,11 +112,17 @@ function Blog() {
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            }).then((response) => response.json())
-            .then(data => {
-                setBlogs([...blogs, data.response])
+            }).then((response) => {
+                return response.json()
             })
-        }
+            .then(data => {
+                if (data && data.blog) {
+                    setBlogs([...blogs, data.blog])
+                } else if (data && data.errors) {
+                    console.log(data.errors)
+                }
+            })
+        // }
 
         setFormData({id: "", title: "", description: ""});
     }
@@ -125,9 +148,15 @@ function Blog() {
                 headers: {
                     'Content-Type': 'application/json',
                 }
-            }).then((response) => response.json())
+            }).then((response) => {
+                if (response.ok) {
+                    return response.json()
+                }
+            })
             .then((data) => {
-                setBlogs((blogs) => blogs.map(blog => (blog.id === blogId ? data.response : blog)));
+                if (data && data.blog) {
+                    setBlogs((blogs) => blogs.map(blog => (blog.id === blogId ? data.blog : blog)));
+                }
             })
         }
 
