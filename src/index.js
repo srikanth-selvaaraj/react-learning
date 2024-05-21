@@ -8,6 +8,7 @@ import Blogs from "./pages/Blogs";
 import Contact from "./pages/Contact";
 import NoPage from "./pages/NoPage";
 import LoginPage from './pages/Login';
+import { AccordianPage } from './pages/accordianPage';
 
 export default function App() {
   return (
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
           <Route path="login" element={<LoginPage />} />
+          <Route path="accordian" element={<AccordianPage />} />
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

@@ -1,7 +1,7 @@
-import Blog from "../components/blog"
+import Blog from "../components/blog";
 
 const Home = () => {
-    return <Blog />;
-  };
-  
+  return <Blog />;
+};
+
 export default Home;
